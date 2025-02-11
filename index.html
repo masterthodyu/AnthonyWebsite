@@ -8,6 +8,7 @@
     <meta name="author" content="Anthony Hoang">
     <title>Anthony Hoang - Portfolio</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             background-color: #000;
@@ -21,21 +22,25 @@
             padding: 20px;
             text-align: center;
         }
-        nav ul {
+        .social-links {
             list-style: none;
             padding: 0;
+            display: flex;
+            justify-content: center;
         }
-        nav ul li {
-            display: inline;
+        .social-links li {
             margin: 0 15px;
         }
-        nav ul li a {
+        .social-links a {
             color: #00aaff;
             text-decoration: none;
             transition: color 0.3s;
         }
-        nav ul li a:hover {
+        .social-links a:hover {
             color: #ffaa00;
+        }
+        .social-links i {
+            font-size: 24px;
         }
         #hero {
             background: linear-gradient(to right, #001f3f, #003f7f);
@@ -50,8 +55,8 @@
         }
         #hero img {
             border-radius: 50%;
-            width: 150px;
-            height: 150px;
+            width: 200px;
+            height: 200px;
             margin-top: 20px;
         }
         section {
@@ -76,6 +81,10 @@
             margin-top: 10px;
             text-align: left;
         }
+        .project-details img {
+            max-width: 100%;
+            height: auto;
+        }
         footer {
             background-color: #001f3f;
             text-align: center;
@@ -84,27 +93,28 @@
             bottom: 0;
             width: 100%;
         }
-        .social-links a {
+        .footer-social-links a {
             color: #00aaff;
             margin: 0 10px;
             text-decoration: none;
             transition: color 0.3s;
         }
-        .social-links a:hover {
+        .footer-social-links a:hover {
             color: #ffaa00;
+        }
+        .footer-social-links i {
+            font-size: 24px;
         }
     </style>
 </head>
 <body>
     <header>
         <h1>Anthony Hoang</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+        <ul class="social-links">
+            <li><a href="https://www.linkedin.com/in/anthony-hoang-1a6b88158" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/masterthodyu" target="_blank"><i class="fab fa-github"></i></a></li>
+            <!-- Add more social links with icons here -->
+        </ul>
     </header>
     
     <section id="hero">
@@ -154,7 +164,7 @@
     
     <section id="contact">
         <h2>Contact</h2>
-        <p>Email: tonygettingfunkyhoang@gmail.com</p>
+        <p>Email: anthonyhoang1998@gmail.com</p>
         <form>
             <label for="name">Name:</label><br>
             <input type="text" id="name" name="name" required><br>
@@ -168,9 +178,10 @@
     
     <footer>
         <p>&copy; 2025 Anthony Hoang</p>
-        <div class="social-links">
-            <a href="https://www.linkedin.com/in/anthonyhoang" target="_blank">LinkedIn</a>
-            <a href="https://github.com/anthonyhoang" target="_blank">GitHub</a>
+        <div class="footer-social-links">
+            <a href="https://www.linkedin.com/in/anthony-hoang-1a6b88158" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/masterthodyu" target="_blank"><i class="fab fa-github"></i></a>
+            <!-- Add more social links with icons here -->
         </div>
     </footer>
 
