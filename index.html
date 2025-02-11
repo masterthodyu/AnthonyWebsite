@@ -63,27 +63,33 @@
             padding: 50px;
             text-align: center;
         }
+        .projects-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
         .project {
             background-color: #001f3f;
             padding: 20px;
-            margin: 20px auto;
-            width: 80%;
+            width: calc(33.333% - 40px); /* Adjust width for three columns with gap */
             border-radius: 10px;
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .project img {
+            width: 100%;
+            height: 200px; /* Set a fixed height */
+            object-fit: cover; /* Crop the image to fit the container */
+            border-radius: 10px;
         }
         .project:hover {
             transform: scale(1.05);
             box-shadow: 0 0 15px #00aaff;
-        }
-        .project-details {
-            display: none;
-            margin-top: 10px;
-            text-align: left;
-        }
-        .project-details img {
-            max-width: 25%; 
-            height: auto;
         }
         footer {
             background-color: #001f3f;
@@ -106,13 +112,16 @@
             font-size: 24px;
         }
         .project img {
-            width: 100px; /* Set a reasonable size for the project icons */
-            height: auto;
+            width: 100%;
+            height: 200px; /* Set a fixed height */
+            object-fit: cover; /* Crop the image to fit the container */
+            border-radius: 10px;
         }
         .project button {
             background: none;
             border: none;
             cursor: pointer;
+            padding: 0;
         }
     </style>
 </head>
@@ -147,25 +156,27 @@
     
     <section id="projects">
         <h2>Projects</h2>
-        <div class="project">
-            <h3>Omega & Epsilon dual PC build</h3>
-            <button onclick="window.location.href='project_sites/project1.html'">
-                <img src="images/OmegaEpsilon.png" alt="Omega & Epsilon dual PC build">
-            </button>
+        <div class="projects-container">
+            <div class="project">
+                <h3>Omega & Epsilon dual PC build</h3>
+                <button onclick="window.location.href='project_sites/project1.html'">
+                    <img src="images/OmegaEpsilon.png" alt="Omega & Epsilon dual PC build">
+                </button>
+            </div>
+            <div class="project">
+                <h3>Home Network Layout</h3>
+                <button onclick="window.location.href='project_sites/project2.html'">
+                    <img src="images/Network_Topology.png" alt="Home Network Layout">
+                </button>
+            </div>
+            <div class="project">
+                <h3>Truenas Server</h3>
+                <button onclick="window.location.href='project_sites/project3.html'">
+                    <img src="images/Truenas_scale_menu.PNG" alt="Truenas Server">
+                </button>
+            </div>
+            <!-- Add more projects here -->
         </div>
-        <div class="project">
-            <h3>Home Network Layout</h3>
-            <button onclick="window.location.href='project_sites/project2.html'">
-                <img src="images/Network_Topology.png" alt="Project Title 2">
-            </button>
-        </div>
-        <div class="project">
-            <h3>Truenas Server</h3>
-            <button onclick="window.location.href='project3.html'">
-                <img src="images/Truenas_scale_menu.PNG" alt="Project Title 3">
-            </button>
-        </div>
-        <!-- Add more projects here -->
     </section>
     
     <section id="contact">
