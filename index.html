@@ -7,104 +7,30 @@
     <meta name="keywords" content="Anthony Hoang, Portfolio, Developer, Projects">
     <meta name="author" content="Anthony Hoang">
     <title>Anthony Hoang - Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <style>
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #001f3f;
-            padding: 20px;
-            text-align: center;
-        }
-        nav ul {
-            list-style: none;
-            padding: 0;
-        }
-        nav ul li {
-            display: inline;
-            margin: 0 15px;
-        }
-        nav ul li a {
-            color: #00aaff;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        nav ul li a:hover {
-            color: #ffaa00;
-        }
-        #hero {
-            background: linear-gradient(to right, #001f3f, #003f7f);
-            padding: 100px 20px;
-            text-align: center;
-        }
-        #hero h2 {
-            font-size: 2.5em;
-        }
-        #hero p {
-            font-size: 1.2em;
-        }
-        #hero img {
-            border-radius: 50%;
-            width: 150px;
-            height: 150px;
-            margin-top: 20px;
-        }
-        section {
-            padding: 50px;
-            text-align: center;
-        }
-        .project {
-            background-color: #001f3f;
-            padding: 20px;
-            margin: 20px auto;
-            width: 80%;
-            border-radius: 10px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-        .project:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px #00aaff;
-        }
-        .project-details {
-            display: none;
-            margin-top: 10px;
-            text-align: left;
-        }
-        footer {
-            background-color: #001f3f;
-            text-align: center;
-            padding: 20px;
-            position: relative;
-            bottom: 0;
-            width: 100%;
-        }
-        .social-links a {
-            color: #00aaff;
-            margin: 0 10px;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        .social-links a:hover {
-            color: #ffaa00;
-        }
+        @media (max-width: 768px) {
+    .project {
+        width: calc(50% - 20px); /* Adjust width for two columns with gap */
+    }
+}
+
+@media (max-width: 480px) {
+    .project {
+        width: 100%; /* Adjust width for one column */
+    }
+}
     </style>
 </head>
 <body>
     <header>
         <h1>Anthony Hoang</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+        <ul class="social-links">
+            <li><a href="https://www.linkedin.com/in/anthony-hoang-1a6b88158" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/masterthodyu" target="_blank"><i class="fab fa-github"></i></a></li>
+            <!-- Add more social links with icons here -->
+        </ul>
     </header>
     
     <section id="hero">
@@ -128,33 +54,32 @@
     
     <section id="projects">
         <h2>Projects</h2>
-        <div class="project" onclick="toggleProjectDetails(this)">
-            <h3>Omega & Epsilon dual PC build</h3>
-            <div class="project-details">
-                <p>This is a description waka waka.</p>
-                <img src="images/IMG_8574.png" alt="Omega & Epsilon dual PC build">
+        <div class="projects-container">
+            <div class="project">
+                <h3>Omega & Epsilon dual PC build</h3>
+                <button onclick="window.location.href='project_sites/project1.html'">
+                    <img src="images/OmegaEpsilon.png" alt="Omega & Epsilon dual PC build">
+                </button>
             </div>
-        </div>
-        <div class="project" onclick="toggleProjectDetails(this)">
-            <h3>Project Title 2</h3>
-            <div class="project-details">
-                <p>Description of the project.</p>
-                <img src="images/project2.png" alt="Project Title 2">
+            <div class="project">
+                <h3>Home Network Layout</h3>
+                <button onclick="window.location.href='project_sites/project2.html'">
+                    <img src="images/Network_Topology.png" alt="Home Network Layout">
+                </button>
             </div>
-        </div>
-        <div class="project" onclick="toggleProjectDetails(this)">
-            <h3>Project Title 3</h3>
-            <div class="project-details">
-                <p>Description of the project.</p>
-                <img src="images/project3.png" alt="Project Title 3">
+            <div class="project">
+                <h3>Truenas Server</h3>
+                <button onclick="window.location.href='project_sites/project3.html'">
+                    <img src="images/Truenas_scale_menu.PNG" alt="Truenas Server">
+                </button>
             </div>
+            <!-- Add more projects here -->
         </div>
-        <!-- Add more projects here -->
     </section>
     
     <section id="contact">
         <h2>Contact</h2>
-        <p>Email: tonygettingfunkyhoang@gmail.com</p>
+        <p>Email: anthonyhoang1998@gmail.com</p>
         <form>
             <label for="name">Name:</label><br>
             <input type="text" id="name" name="name" required><br>
@@ -168,29 +93,11 @@
     
     <footer>
         <p>&copy; 2025 Anthony Hoang</p>
-        <div class="social-links">
-            <a href="https://www.linkedin.com/in/anthonyhoang" target="_blank">LinkedIn</a>
-            <a href="https://github.com/anthonyhoang" target="_blank">GitHub</a>
+        <div class="footer-social-links">
+            <a href="https://www.linkedin.com/in/anthony-hoang-1a6b88158" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/masterthodyu" target="_blank"><i class="fab fa-github"></i></a>
+            <!-- Add more social links with icons here -->
         </div>
     </footer>
-
-    <script>
-        function toggleProjectDetails(projectElement) {
-            const details = projectElement.querySelector('.project-details');
-            const allDetails = document.querySelectorAll('.project-details');
-            
-            allDetails.forEach(detail => {
-                if (detail !== details) {
-                    detail.style.display = 'none';
-                }
-            });
-            
-            if (details.style.display === 'block') {
-                details.style.display = 'none';
-            } else {
-                details.style.display = 'block';
-            }
-        }
-    </script>
 </body>
 </html>
