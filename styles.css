@@ -127,14 +127,3 @@ footer {
     padding: 0;
 }
 
-@media (max-width: 768px) {
-    .project {
-        width: calc(50% - 20px); /* Adjust width for two columns with gap */
-    }
-}
-
-@media (max-width: 480px) {
-    .project {
-        width: 100%; /* Adjust width for one column */
-    }
-}
