@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Assistant - Anthony Yu</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/home-assistant-js-websocket@9.1.0/dist/haws.umd.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.js"></script>
+    <style>
+        /* Additional styles to match your theme */
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
+        
+        .status-on {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+        
+        .status-off {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        
+        .status-open {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .status-closed {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="homeassistant.html" class="active">Home Assistant</a></li>
+        </ul>
+    </nav>
+
+    <div id="dashboard" class="content">
+        <h1>Home Assistant Dashboard</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+            <!-- Climate Devices -->
+            <div class="dashboard-card p-6">
+                <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <i data-lucide="thermometer"></i>
+                    Climate
+                </h2>
+                <div id="climate-devices" class="space-y-4">
+                    <!-- Climate devices will be populated here -->
+                </div>
+            </div>
+
+            <!-- Lights -->
+            <div class="dashboard-card p-6">
+                <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <i data-lucide="lightbulb"></i>
+                    Lights
+                </h2>
+                <div id="lights" class="space-y-4">
+                    <!-- Lights will be populated here -->
+                </div>
+            </div>
+
+            <!-- Doors/Windows -->
+            <div class="dashboard-card p-6">
+                <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <i data-lucide="door-closed"></i>
+                    Doors & Windows
+                </h2>
+                <div id="doors-windows" class="space-y-4">
+                    <!-- Doors and windows will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Home Assistant connection configuration
+        const hassUrl = 'http:10.2.0.214:8123';
+        const accessToken = 'your_long_lived_access_token';
+
+        async function connectToHA() {
+            try {
+                const auth = {
+                    hassUrl,
+                    access_token: accessToken
+                };
+
+                const connection = await HAWS.createConnection({ auth });
+
+                // Subscribe to entities
+                connection.subscribeEntities((entities) => {
+                    updateDashboard(entities);
+                });
+            } catch (err) {
+                console.error('Failed to connect to Home Assistant:', err);
+                document.getElementById('dashboard').innerHTML = `
+                    <div class="flex items-center justify-center h-[50vh]">
+                        <div class="dashboard-card p-6">
+                            <p class="text-red-500">Failed to connect to Home Assistant. Please check your configuration.</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function updateDashboard(entities) {
+            // Update climate devices
+            const climateDevices = Object.entries(entities)
+                .filter(([entityId]) => entityId.startsWith('climate.'))
+                .map(([entityId, entity]) => `
+                    <div class="flex justify-between items-center">
+                        <span>${entity.attributes.friendly_name}</span>
+                        <span class="status-badge">${entity.state}°C</span>
+                    </div>
+                `).join('');
+            document.getElementById('climate-devices').innerHTML = climateDevices || 'No climate devices found';
+
+            // Update lights
+            const lights = Object.entries(entities)
+                .filter(([entityId]) => entityId.startsWith('light.'))
+                .map(([entityId, entity]) => `
+                    <div class="flex justify-between items-center">
+                        <span>${entity.attributes.friendly_name}</span>
+                        <span class="status-badge ${entity.state === 'on' ? 'status-on' : 'status-off'}">
+                            ${entity.state}
+                        </span>
+                    </div>
+                `).join('');
+            document.getElementById('lights').innerHTML = lights || 'No lights found';
+
+            // Update doors and windows
+            const doorsWindows = Object.entries(entities)
+                .filter(([entityId]) => entityId.startsWith('binary_sensor.') && 
+                    (entityId.includes('door') || entityId.includes('window')))
+                .map(([entityId, entity]) => `
+                    <div class="flex justify-between items-center">
+                        <span>${entity.attributes.friendly_name}</span>
+                        <span class="status-badge ${entity.state === 'on' ? 'status-open' : 'status-closed'}">
+                            ${entity.state === 'on' ? 'Open' : 'Closed'}
+                        </span>
+                    </div>
+                `).join('');
+            document.getElementById('doors-windows').innerHTML = doorsWindows || 'No doors or windows found';
+        }
+
+        // Connect to Home Assistant when the page loads
+        connectToHA();
+    </script>
+</body>
+</html>
