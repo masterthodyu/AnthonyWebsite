@@ -25,66 +25,64 @@
             <!-- Add more social links with icons here -->
         </ul>
     </header>
-    <button onclick="window.location.href='../index.html'">Back to Main Page</button>
-    <img src="../images/Truenas_scale_menu.PNG" alt="Truenas Server">
+    <div class="container">
+        <button onclick="window.location.href='../index.html'">Back to Main Page</button>
+        <img src="../images/Truenas_scale_menu.PNG" alt="Truenas Server">
 
-    
-    <section id="truenas-info">
-        <h2>What is TrueNAS?</h2>
-        <p>TrueNAS is a powerful, open-source storage operating system that provides 
-            enterprise-grade storage capabilities. It is designed to be used in both home and 
-            business environments, offering features such as data protection, scalability, and 
-            high availability. TrueNAS supports various storage protocols, including SMB, NFS, 
-            iSCSI, and more, making it a versatile solution for different storage needs.</p>
+        <section id="truenas-info">
+            <h2>What is TrueNAS?</h2>
+            <p>TrueNAS is a powerful, open-source storage operating system that provides 
+                enterprise-grade storage capabilities. It is designed to be used in both home and 
+                business environments, offering features such as data protection, scalability, and 
+                high availability. TrueNAS supports various storage protocols, including SMB, NFS, 
+                iSCSI, and more, making it a versatile solution for different storage needs.</p>
 
-        <h2>What do I use TrueNAS for?</h2>
-        <p>I use TrueNAS as a central storage solution for my home network. It serves as a 
-            file and media server, allowing me to store and access files 
-            from multiple devices on my network. TrueNAS also provides data protection features such as 
-            snapshots and replication, ensuring that my data is safe and secure.
-            I have 3 HDDS in Raid 5 as my main file storage. Raid 5 means I have 2 drives joined together
-            while the 3rd drive acts as a fall back drive in case a drive failure occurs. I then use
-            5 800gb SAS SSD drives in Raid 0 for video editing my personal youtube channel. </p>
+            <h2>What do I use TrueNAS for?</h2>
+            <p>I use TrueNAS as a central storage solution for my home network. It serves as a 
+                file and media server, allowing me to store and access files 
+                from multiple devices on my network. TrueNAS also provides data protection features such as 
+                snapshots and replication, ensuring that my data is safe and secure.
+                I have 3 HDDS in Raid 5 as my main file storage. Raid 5 means I have 2 drives joined together
+                while the 3rd drive acts as a fall back drive in case a drive failure occurs. I then use
+                5 800gb SAS SSD drives in Raid 0 for video editing my personal youtube channel. </p>
 
-        <h2>Hardware Specifications</h2>
-        <ul>
-            <li>Case: Silverstone RM22-308</li>
-            <li>Motherboard: ASRock X399 Taichi sTR4</li>
-            <li>CPU: AMD Ryzen Threadripper 1950x</li>
-            <li>Cooling: Dynatron A26 2U Active Aluminum Heatsink</li>
-            <li>RAM: x4 Crucial 16GB ECC Registered DDR4 2666</li>
-            <li>Storage: 3x Seagate Exos 18TB HDDs</li>
-            <li>Boot Drive: Samsung 970 250GB NVME SSD</li>
-            <li>Network: 2.5GBase-T PCIe Network Adapter RTL8125B NIC</li>
-            <li>HBA Card: LSI Broadcom SAS 9300-8i Host Bus Adapter</li>
-            <li>Graphics Card: Gigabyte Geforce GT 710</li>
-            <li>Internal Fans: Noctua NF-A8</li>
-            <li>Power Supply: Silverstone FX600 Platinum 600W</li>
-            <li>OS: TrueNAS Scale</li>
+            <h2>Hardware Specifications</h2>
+            <ul>
+                <li>Case: Silverstone RM22-308</li>
+                <li>Motherboard: ASRock X399 Taichi sTR4</li>
+                <li>CPU: AMD Ryzen Threadripper 1950x</li>
+                <li>Cooling: Dynatron A26 2U Active Aluminum Heatsink</li>
+                <li>RAM: x4 Crucial 16GB ECC Registered DDR4 2666</li>
+                <li>Storage: 3x Seagate Exos 18TB HDDs</li>
+                <li>Boot Drive: Samsung 970 250GB NVME SSD</li>
+                <li>Network: 2.5GBase-T PCIe Network Adapter RTL8125B NIC</li>
+                <li>HBA Card: LSI Broadcom SAS 9300-8i Host Bus Adapter</li>
+                <li>Graphics Card: Gigabyte Geforce GT 710</li>
+                <li>Internal Fans: Noctua NF-A8</li>
+                <li>Power Supply: Silverstone FX600 Platinum 600W</li>
+                <li>OS: TrueNAS Scale</li>
+            </ul>
 
-            
-        </ul>
+            <h2>Software Specifications</h2>
+            <ul>
+                <li>TrueNAS Scale STABLE</li>
+                <li>File Services: SMB, NFS</li>
+                <li>Block Services: iSCSI</li>
+                <li>Virtualization: App/Docker</li>
+                <li>Backup: ZFS Snapshots</li>
+            </ul>
 
-        <h2>Software Specifications</h2>
-        <ul>
-            <li>TrueNAS Scale STABLE</li>
-            <li>File Services: SMB, NFS</li>
-            <li>Block Services: iSCSI</li>
-            <li>Virtualization: App/Docker</li>
-            <li>Backup: ZFS Snapshots</li>
+            <h2>What am I hosting</h2>
+            <p>My TrueNAS server hosts a couple of apps through the truenas app setting,
+                and then through portainer.io I have a few docker containers running.
+                Currently I have ClamAV (antivirus), metube(YouTube clone), Portainer.IO (docker container) and a few other apps running.
+                In Portainer I have currently running Home Assistant (Self Hosted Home Automation and analytics).
+            </p>
 
-        </ul>
-
-        <h2>What am I hosting</h2>
-        <p>My TrueNAS server hosts a couple of apps through the truenas app setting,
-            and then through portainer.io I have a few docker containers running.
-            Currently I have ClamAV (antivirus), metube(YouTube clone), Portainer.IO (docker container) and a few other apps running.
-            In Portainer I have currently running Home Assistant (Self Hosted Home Automation and analytics).
-        </p>
-
-        <h2>Future Plans</h2>
-        <p>Building another machine to back up my files. Add more ram. Add </p>
-    </section>
+            <h2>Future Plans</h2>
+            <p>Building another machine to back up my files. Add more ram. Add </p>
+        </section>
+    </div>
     <footer>
         <div class="footer-social-links">
             <a href="https://www.linkedin.com/in/anthony-hoang-1a6b88158" target="_blank"><i class="fab fa-linkedin"></i></a>
