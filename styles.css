@@ -62,8 +62,14 @@ header {
     margin-top: 20px;
 }
 
+.container {
+    max-width: 1000px; /* Set a maximum width for the container */
+    margin: 0 auto; /* Center the container */
+    padding: 0 20px; /* Add some padding for better spacing */
+}
+
 section {
-    padding: 50px;
+    padding: 50px 0;
     text-align: center;
 }
 
