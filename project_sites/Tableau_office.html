@@ -23,16 +23,45 @@
     
     <section id="tableau-info">
         <h2>Tableau Projects</h2>
-        <p>These are the current projects that I worked on individually while employed using Tableau and custom SQLs.</p>
+        <p>While employed for 6 months as a data analyst, These were the projects that I worked on individually using Tableau and custom SQLs.
+            I had to blur out the majority of everything since this is data I'm not allowed to share to the public.
+            I can, however, explain the process and the steps I took to create these dashboards.</p>
+        </p>
         
         <h3>Dashboard with a Map</h3>
         <p>This dashboard, named "Dashboard with a map," demonstrates my ability to integrate a map into a Tableau dashboard. The map was generated using the longitude and latitude data provided in a database, which I am not allowed to detail. The map includes an action button that allows users to add the map to the dashboard.</p>
-        <img src="../images/Dashboard_with_map.png" alt="Dashboard with a map">
+        <img src="../images/Dashboard_map.png" alt="Dashboard with a map">
+        <figcaption>Dashboard with a map</figcaption>
 
         <h3>Advanced Dashboard</h3>
-        <p>This dashboard, named "Advanced Dashboard" (Procurement Data), displays a lot of information. It includes navigation panels on the side that can redirect to other dashboards in the workbook, a summary icon on the top left that users can hover over to see the summary of the workbook, parameters in tan that can change the contents of each individual column, filters for the columns, and other specifications that are blurred. On the main page, selecting a cell pops up another table with more in-depth data depending on the selected field.</p>
-        <p>The actions shown for this workbook display how I can allow fields on the main table to display data from another table based on selection. There are also redirect links for certain fields that redirect the user to a URL in the company's database.</p>
-        <p>The column selections are built off of 5 parameters with 6 options, one of which is N/A as default to display nothing. The calculated field below displays how the columns will change depending on parameter selection:</p>
+        <p>This dashboard, named "Advanced Dashboard" (Procurement Data), displays a lot of information. 
+            It includes navigation panels on the side that can redirect to other dashboards in the workbook, 
+            a summary icon on the top left that users can hover over to see the summary of the workbook, 
+            parameters in tan that can change the contents of each individual column, 
+            filters for the columns, and other specifications that are blurred. 
+            On the main page, selecting a cell pops up another table with more in-depth data 
+            depending on the selected field.</p>
+            <img src="../images/Advanced_Dashboard.png" alt="Advanced Dashboard">
+            <figcaption>Dashboard containing dashboard navigation and massive customizability</figcaption>
+            <br>
+            <img src="../images/Table_selction_drops_another_table.png" alt="Table selection drops another table">
+            <figcaption>Demonstrates how filtering from a field on the dashboard displays another table
+                that goes more into depth
+            </figcaption>
+
+        <p>The actions shown for this workbook display how 
+            I can allow fields on the main table to display data from 
+            another table based on selection. There are also redirect 
+            links for certain fields that redirect the user to a URL in the company's database.</p>
+        <img src="../images/Actions_menu.png" alt="Action menu">
+        <figcaption>Action menu containing redirect links and filtering</figcaption>
+
+
+        
+        <p>The column selections are built off of 5 parameters with 6 options, 
+            one of which is N/A as default to display nothing. 
+            The calculated field below displays how the columns will 
+            change depending on parameter selection:</p>
         <pre>
 CASE [Select Column]
     WHEN "Option 1" THEN [Field 1]
@@ -65,12 +94,13 @@ LEFT JOIN [Database].[Schema].[HeaderTable] HT
         <pre>
 CASE  
     WHEN [Field1] LIKE '%123456%' THEN 'Group - Subcategory'  
-    WHEN [Field2] LIKE '%Characters related to item and subcategory%' THEN 'Group - Subcategory'  
-    WHEN [Field2] LIKE '%Characters%' AND [Field2] LIKE '%Subcategory%' THEN 'Group - Subcategory'  
+    WHEN [Field2] LIKE '%Characters 
+    related to item and subcategory%' THEN 'Group - Subcategory'  
+    WHEN [Field2] LIKE '%Characters%' AND 
+    [Field2] LIKE '%Subcategory%' THEN 'Group - Subcategory'  
     ELSE 'Default Value' -- Optional default case  
 END
         </pre>
-        <img src="../images/Advanced_Dashboard.png" alt="Advanced Dashboard">
     </section>
     
     <footer>
