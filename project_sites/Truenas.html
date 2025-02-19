@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Truenas Server">
+    <meta name="keywords" content="Anthony Hoang, Portfolio, Projects, Truenas, Server">
+    <meta name="author" content="Anthony Hoang">
+    <title>Truenas Server</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        ul {
+            list-style-type: none; /* Remove bullet points */
+            padding-left: 0; /* Remove default padding */
+        }
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 20px 0;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .back-button:active {
+            background: #0056b3;
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Truenas Server</h1>
+        <ul class="social-links">
+            <li><a href="https://www.linkedin.com/in/anthony-hoang-1a6b88158" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/masterthodyu" target="_blank"><i class="fab fa-github"></i></a></li>
+            <!-- Add more social links with icons here -->
+        </ul>
+    </header>
+    <!-- <button onclick="window.location.href='../index.html'">Back to Main Page</button> -->
+    <img src="../images/Truenas_scale_menu.PNG" alt="Truenas Server">
+
+    
+    <section id="truenas-info">
+        <h2>What is TrueNAS?</h2>
+        <p>TrueNAS is a powerful, open-source storage operating system that provides 
+            enterprise-grade storage capabilities. It is designed to be used in both home and 
+            business environments, offering features such as data protection, scalability, and 
+            high availability. TrueNAS supports various storage protocols, including SMB, NFS, 
+            iSCSI, and more, making it a versatile solution for different storage needs.</p>
+
+        <h2>What do I use TrueNAS for?</h2>
+        <p>I use TrueNAS as a central storage solution for my home network. It serves as a 
+            file and media server, allowing me to store and access files 
+            from multiple devices on my network. TrueNAS also provides data protection features such as 
+            snapshots and replication, ensuring that my data is safe and secure.
+            I have 3 HDDS in Raid 5 as my main file storage. Raid 5 means I have 2 drives joined together
+            while the 3rd drive acts as a fall back drive in case a drive failure occurs. I then use
+            5 800gb SAS SSD drives in Raid 0 for video editing my personal youtube channel. </p>
+
+        <h2>Hardware Specifications</h2>
+        <ul>
+            <li>Case: Silverstone RM22-308</li>
+            <li>Motherboard: ASRock X399 Taichi sTR4</li>
+            <li>CPU: AMD Ryzen Threadripper 1950x</li>
+            <li>Cooling: Dynatron A26 2U Active Aluminum Heatsink</li>
+            <li>RAM: x4 Crucial 16GB ECC Registered DDR4 2666</li>
+            <li>Storage: 3x Seagate Exos 18TB HDDs</li>
+            <li>Boot Drive: Samsung 970 250GB NVME SSD</li>
+            <li>Network: 2.5GBase-T PCIe Network Adapter RTL8125B NIC</li>
+            <li>HBA Card: LSI Broadcom SAS 9300-8i Host Bus Adapter</li>
+            <li>Graphics Card: Gigabyte Geforce GT 710</li>
+            <li>Internal Fans: Noctua NF-A8</li>
+            <li>Power Supply: Silverstone FX600 Platinum 600W</li>
+            <li>OS: TrueNAS Scale</li>
+
+            
+        </ul>
+
+        <h2>Software Specifications</h2>
+        <ul>
+            <li>TrueNAS Scale STABLE</li>
+            <li>File Services: SMB, NFS</li>
+            <li>Block Services: iSCSI</li>
+            <li>Virtualization: App/Docker</li>
+            <li>Backup: ZFS Snapshots, Replication</li>
+
+        </ul>
+
+        <h2>What am I hosting</h2>
+        <p>My TrueNAS server hosts a variety of data, including media files, documents, and backups 
+            from my other devices. I also use it to run virtual machines and containers for 
+            testing and development purposes. The server is accessible from all devices on my 
+            home network, allowing me to easily share and access files as needed.</p>
+
+        <h2>Future Plans</h2>
+        <p>Future plans for my TrueNAS server include expanding storage capacity with additional 
+            hard drives, implementing a backup strategy for offsite storage, and exploring 
+            additional features and plugins available in TrueNAS Scale.</p>
+    </section>
+    <footer>
+        <div class="footer-social-links">
+            <a href="https://www.linkedin.com/in/anthony-hoang-1a6b88158" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/masterthodyu" target="_blank"><i class="fab fa-github"></i></a>
+            <!-- Add more social links with icons here -->
+        </div>
+    </footer>
+</body>
+</html>
