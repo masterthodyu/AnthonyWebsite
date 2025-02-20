@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tableau Professional Work">
+    <meta name="keywords" content="Anthony Hoang, Portfolio, Projects, Tableau, SQL">
+    <meta name="author" content="Anthony Hoang">
+    <title>Tableau Professional Work</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header>
+        <h1>Tableau Professional Work</h1>
+        <ul class="social-links">
+            <li><a href="https://www.linkedin.com/in/anthony-hoang-1a6b88158" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/masterthodyu" target="_blank"><i class="fab fa-github"></i></a></li>
+            <!-- Add more social links with icons here -->
+        </ul>
+    </header>
+    <div class="container">
+        <button onclick="window.location.href='../index.html'">Back to Main Page</button>
+        
+        <section id="tableau-info">
+            <h2>Tableau Projects</h2>
+            <p>While employed for 6 months as a data analyst, These were the projects that I worked on individually using Tableau and custom SQLs.
+                I had to blur out the majority of everything since this is data I'm not allowed to share to the public.
+                I can, however, explain the process and the steps I took to create these dashboards.</p>
+            
+            <h3>Dashboard with a Map</h3>
+            <p>This dashboard, named "Dashboard with a map," demonstrates my ability to integrate a map into a Tableau dashboard. The map was generated using the longitude and latitude data provided in a database, which I am not allowed to detail. The map includes an action button that allows users to add the map to the dashboard.</p>
+            <figure>
+                <img src="../images/Dashboard_map.png" alt="Dashboard with a map">
+                <figcaption>Dashboard with a map</figcaption>
+            </figure>
+
+            <h3>Advanced Dashboard</h3>
+            <p>This dashboard, named "Advanced Dashboard" (Procurement Data), displays a lot of information. 
+                It includes navigation panels on the side that can redirect to other dashboards in the workbook, 
+                a summary icon on the top left that users can hover over to see the summary of the workbook, 
+                parameters in tan that can change the contents of each individual column, 
+                filters for the columns, and other specifications that are blurred. 
+                On the main page, selecting a cell pops up another table with more in-depth data 
+                depending on the selected field.</p>
+            <figure>
+                <img src="../images/Advanced_Dashboard.png" alt="Advanced Dashboard">
+                <figcaption>Dashboard containing dashboard navigation and massive customizability</figcaption>
+            </figure>
+            <br>
+            <figure>
+                <img src="../images/Table_selction_drops_another_table.png" alt="Table selection drops another table">
+                <figcaption>Demonstrates how filtering from a field on the dashboard displays another table
+                    that goes more into depth
+                </figcaption>
+            </figure>
+
+            <p>The actions shown for this workbook display how I can allow fields on the main table to display data from another table based on selection. There are also redirect links for certain fields that redirect the user to a URL in the company's database.</p>
+            <figure>
+                <img src="../images/Actions_menu.png" alt="Action menu">
+                <figcaption>Action menu containing redirect links and filtering</figcaption>
+            </figure>
+
+            <p>The column selections are built off of 5 parameters with 6 options, one of which is N/A as default to display nothing. The calculated field below displays how the columns will change depending on parameter selection:</p>
+            <pre>
+CASE [Select Column]
+    WHEN "Option 1" THEN [Field 1]
+    WHEN "Option 2" THEN [Field 2]
+    WHEN "Option 3" THEN [Field 3]
+    WHEN "Option 4" THEN [Field 4]
+    WHEN "Option 5" THEN [Field 5]
+    WHEN "N/A" THEN ""
+END
+            </pre>
+            <p>The join for the table was structured similarly to this:</p>
+            <pre>
+FROM [Database].[Schema].[MainTable] MT  
+LEFT JOIN [Database].[Schema].[DetailTable] DT  
+    ON MT.[PrimaryKey] = DT.[ForeignKey]  
+LEFT JOIN [Database].[Schema].[RelatedTable1] RT1  
+    ON RT1.[JoinKey1] = DT.[JoinKey1]  
+    AND RT1.[JoinKey2] = DT.[JoinKey2]  
+LEFT JOIN [Database].[Schema].[RelatedTable2] RT2  
+    ON RT2.[JoinKey3] = RT1.[JoinKey3]  
+    AND RT2.[JoinKey4] = RT1.[JoinKey4]  
+LEFT JOIN [Database].[Schema].[PeopleTable] PT  
+    ON PT.[ID] = RT1.[RequestorID]  
+LEFT JOIN [Database].[Schema].[HeaderTable] HT  
+    ON RT1.[PONumber] = HT.[PONumber]  
+            </pre>
+            <p>These were all left joins because we wanted the first table to be the main source and keep everything joined afterward only relevant to the main table.</p>
+            <p>There was a calculated field I had to convert into SQL because the calculated field had so many entries to scan that it would lag the interface. So I implemented it into the custom SQL so it would run smoother.</p>
+            <p>The template for categorizing the content in this one field into groups:</p>
+            <pre>
+CASE
+    WHEN [Field1] LIKE '%123456%' THEN 'Group - Subcategory'  
+    WHEN [Field2] LIKE '%Characters related to item and subcategory%' 
+    THEN 'Group - Subcategory'  
+    WHEN [Field2] LIKE '%Characters%' AND 
+[Field2] LIKE '%Subcategory%' 
+    THEN 'Group - Subcategory'  
+    ELSE 'Default Value' -- Optional default case  
+END
+            </pre>
+        </section>
+    </div>
+    <footer>
+        <div class="footer-social-links">
+            <a href="https://www.linkedin.com/in/anthony-hoang-1a6b88158" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/masterthodyu" target="_blank"><i class="fab fa-github"></i></a>
+            <!-- Add more social links with icons here -->
+        </div>
+    </footer>
+</body>
+</html>
