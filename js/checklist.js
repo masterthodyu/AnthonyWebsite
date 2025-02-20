@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+import { getDatabase, ref, get, set, update } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -14,7 +14,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db = getDatabase(app);
 
 document.addEventListener('DOMContentLoaded', () => {
     const password = '10291998'; // Replace with your actual password
@@ -45,23 +45,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function savePokemonList(pokemonList) {
-        pokemonList.forEach(async (pokemon) => {
-            try {
-                await setDoc(doc(db, 'pokemon', pokemon.id.toString()), pokemon);
-                console.log(`Document updated with ID: ${pokemon.id}`);
-            } catch (error) {
-                console.error('Error updating document:', error);
-            }
+        const updates = {};
+        pokemonList.forEach(pokemon => {
+            updates[`/pokemon/${pokemon.id}`] = pokemon;
         });
+        return update(ref(db), updates);
     }
 
     async function loadPokemonList() {
-        const querySnapshot = await getDocs(collection(db, 'pokemon'));
-        const pokemonList = [];
-        querySnapshot.forEach(doc => {
-            pokemonList.push(doc.data());
-        });
-        return pokemonList;
+        const snapshot = await get(ref(db, 'pokemon'));
+        if (snapshot.exists()) {
+            return Object.values(snapshot.val());
+        } else {
+            console.log("No data available");
+            return [];
+        }
     }
 
     loadPokemonList().then(pokemonList => {
@@ -78,8 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
         authForm.addEventListener('submit', (event) => {
             event.preventDefault(); // Prevent form submission from reloading the page
             if (passwordInput.value === password) {
-                savePokemonList(pokemonList);
-                alert('Changes confirmed!');
+                savePokemonList(pokemonList).then(() => {
+                    alert('Changes confirmed!');
+                }).catch(error => {
+                    console.error('Error saving data:', error);
+                });
             } else {
                 alert('Incorrect password!');
             }
