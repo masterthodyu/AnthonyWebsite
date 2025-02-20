@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const listItem = document.createElement('li');
             const imageName = pokemon.name.toLowerCase(); // Use the Pokémon's name for the image file name
             listItem.innerHTML = `
-                <img src="../images/pokemon/normal/${imageName}.png" alt="${pokemon.name}">
+                <img src="../images/pokemon/normal/${imageName}.webp" alt="${pokemon.name}">
                 <span>${pokemon.name}</span>
                 <input type="checkbox" ${pokemon.obtained ? 'checked' : ''} data-id="${pokemon.id}">
             `;
@@ -26,9 +26,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function savePokemonList(pokemonList) {
+        localStorage.setItem('pokemonList', JSON.stringify(pokemonList));
+    }
+
+    function loadPokemonList() {
+        const savedList = localStorage.getItem('pokemonList');
+        return savedList ? JSON.parse(savedList) : null;
+    }
+
     fetch('../js/pokemon.json')
         .then(response => response.json())
         .then(pokemonList => {
+            const savedList = loadPokemonList();
+            if (savedList) {
+                pokemonList = savedList;
+            }
             renderPokemonList(pokemonList);
 
             pokemonListElement.addEventListener('change', (event) => {
@@ -42,8 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
             authForm.addEventListener('submit', (event) => {
                 event.preventDefault();
                 if (passwordInput.value === password) {
+                    savePokemonList(pokemonList);
                     alert('Changes confirmed!');
-                    // Here you can add code to save the changes to a server or local storage
                 } else {
                     alert('Incorrect password!');
                 }
