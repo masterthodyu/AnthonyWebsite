@@ -24,6 +24,8 @@ fs.readFile('./js/pokemon.json', 'utf8', (err, data) => {
   // Write each Pokémon to Firestore
   pokemonList.forEach(async (pokemon) => {
     try {
+      // Add an 'obtained' field to each document
+      pokemon.obtained = false;
       await db.collection('pokemon').doc(pokemon.id.toString()).set(pokemon);
       console.log(`Document written with ID: ${pokemon.id}`);
     } catch (error) {

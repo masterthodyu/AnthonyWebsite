@@ -1,3 +1,21 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyAXKt8fiGl1A5Q7Rwdfm8OqkV9sbKwK8ag",
+    authDomain: "pokemon-checklist-8d6a5.firebaseapp.com",
+    databaseURL: "https://pokemon-checklist-8d6a5-default-rtdb.firebaseio.com",
+    projectId: "pokemon-checklist-8d6a5",
+    storageBucket: "pokemon-checklist-8d6a5.firebasestorage.app",
+    messagingSenderId: "605266308555",
+    appId: "1:605266308555:web:df0cf4badb20dcdca9da4e"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 document.addEventListener('DOMContentLoaded', () => {
     const password = '10291998'; // Replace with your actual password
 
@@ -27,26 +45,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function savePokemonList(pokemonList) {
-        const batch = db.batch();
-        pokemonList.forEach(pokemon => {
-            const docRef = db.collection('pokemon').doc(pokemon.id.toString());
-            batch.set(docRef, pokemon);
-        });
-        batch.commit().then(() => {
-            console.log('Batch write succeeded.');
-        }).catch(error => {
-            console.error('Error writing batch: ', error);
+        pokemonList.forEach(async (pokemon) => {
+            try {
+                await setDoc(doc(db, 'pokemon', pokemon.id.toString()), pokemon);
+                console.log(`Document updated with ID: ${pokemon.id}`);
+            } catch (error) {
+                console.error('Error updating document:', error);
+            }
         });
     }
 
-    function loadPokemonList() {
-        return db.collection('pokemon').get().then(querySnapshot => {
-            const pokemonList = [];
-            querySnapshot.forEach(doc => {
-                pokemonList.push(doc.data());
-            });
-            return pokemonList;
+    async function loadPokemonList() {
+        const querySnapshot = await getDocs(collection(db, 'pokemon'));
+        const pokemonList = [];
+        querySnapshot.forEach(doc => {
+            pokemonList.push(doc.data());
         });
+        return pokemonList;
     }
 
     loadPokemonList().then(pokemonList => {
