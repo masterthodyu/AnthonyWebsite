@@ -92,12 +92,13 @@ LEFT JOIN [Database].[Schema].[HeaderTable] HT
             <p>There was a calculated field I had to convert into SQL because the calculated field had so many entries to scan that it would lag the interface. So I implemented it into the custom SQL so it would run smoother.</p>
             <p>The template for categorizing the content in this one field into groups:</p>
             <pre>
-CASE  
+CASE
     WHEN [Field1] LIKE '%123456%' THEN 'Group - Subcategory'  
-    WHEN [Field2] LIKE '%Characters 
-    related to item and subcategory%' THEN 'Group - Subcategory'  
+    WHEN [Field2] LIKE '%Characters related to item and subcategory%' 
+    THEN 'Group - Subcategory'  
     WHEN [Field2] LIKE '%Characters%' AND 
-    [Field2] LIKE '%Subcategory%' THEN 'Group - Subcategory'  
+[Field2] LIKE '%Subcategory%' 
+    THEN 'Group - Subcategory'  
     ELSE 'Default Value' -- Optional default case  
 END
             </pre>

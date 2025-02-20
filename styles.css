@@ -33,7 +33,7 @@ header {
     transition: color 0.3s;
 }
 
-.social-links a:hover {
+social-links a:hover {
     color: #ffaa00;
 }
 
@@ -63,7 +63,7 @@ header {
 }
 
 .container {
-    max-width: 1100px; /* Set a maximum width for the container */
+    max-width: 1200px; /* Set a maximum width for the container */
     margin: 0 auto; /* Center the container */
     padding: 0 20px; /* Add some padding for better spacing */
 }
@@ -74,16 +74,14 @@ section {
 }
 
 .projects-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Always have 2 columns */
     gap: 20px;
 }
 
 .project {
     background-color: #001f3f;
     padding: 20px;
-    width: calc(33.333% - 40px); /* Adjust width for three columns with gap */
     border-radius: 10px;
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
@@ -95,8 +93,8 @@ section {
 
 .project img {
     width: 100%;
-    height: 200px; /* Set a fixed height */
-    object-fit: cover; /* Crop the image to fit the container */
+    height: auto;
+    object-fit: cover;
     border-radius: 10px;
 }
 
@@ -226,14 +224,8 @@ button:active, .back-button:active {
         font-size: 20px;
     }
 
-    .project {
-        width: calc(50% - 20px); /* Adjust width for two columns with gap */
-    }
-}
-
-@media (max-width: 480px) {
-    .project {
-        width: 100%; /* Adjust width for one column */
+    .projects-container {
+        grid-template-columns: 1fr; /* Single column on smaller screens */
     }
 }
 
@@ -242,4 +234,16 @@ figcaption {
     color: #ccc; /* Optional: Change the color to make it more subtle */
     text-align: center; /* Optional: Center align the caption */
     margin-top: 5px; /* Optional: Add some space above the caption */
+}
+
+pre {
+    max-width: 1200px;
+    white-space: pre-wrap; /* Wrap long lines */
+    word-wrap: break-word; /* Break long words */
+    background-color: #0000; /* Optional: Add background color */
+    padding: 10px; /* Optional: Add padding */
+    border: 1px solid #ddd; /* Optional: Add border */
+    border-radius: 5px; /* Optional: Add border radius */
+    overflow-x: auto; /* Add horizontal scroll if needed */
+    text-align: left; /* Optional: Align text to the left */
 }
