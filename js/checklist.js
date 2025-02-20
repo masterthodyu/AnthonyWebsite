@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordInput = document.getElementById('password');
 
     function renderPokemonList(pokemonList) {
+        console.log('Rendering Pokémon list:', pokemonList);
         pokemonListElement.innerHTML = '';
         pokemonList.forEach(pokemon => {
             const listItem = document.createElement('li');
@@ -55,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadPokemonList() {
         const snapshot = await get(ref(db, 'pokemon'));
         if (snapshot.exists()) {
+            console.log('Data loaded from Firebase:', snapshot.val());
             return Object.values(snapshot.val());
         } else {
             console.log("No data available");
