@@ -27,41 +27,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function savePokemonList(pokemonList) {
-        localStorage.setItem('pokemonList', JSON.stringify(pokemonList));
+        const batch = db.batch();
+        pokemonList.forEach(pokemon => {
+            const docRef = db.collection('pokemon').doc(pokemon.id.toString());
+            batch.set(docRef, pokemon);
+        });
+        batch.commit().then(() => {
+            console.log('Batch write succeeded.');
+        }).catch(error => {
+            console.error('Error writing batch: ', error);
+        });
     }
 
     function loadPokemonList() {
-        const savedList = localStorage.getItem('pokemonList');
-        return savedList ? JSON.parse(savedList) : null;
+        return db.collection('pokemon').get().then(querySnapshot => {
+            const pokemonList = [];
+            querySnapshot.forEach(doc => {
+                pokemonList.push(doc.data());
+            });
+            return pokemonList;
+        });
     }
 
-    fetch('../js/pokemon.json')
-        .then(response => response.json())
-        .then(pokemonList => {
-            const savedList = loadPokemonList();
-            if (savedList) {
-                pokemonList = savedList;
+    loadPokemonList().then(pokemonList => {
+        renderPokemonList(pokemonList);
+
+        pokemonListElement.addEventListener('change', (event) => {
+            if (event.target.type === 'checkbox') {
+                const id = parseInt(event.target.getAttribute('data-id'), 10);
+                const obtained = event.target.checked;
+                updatePokemonObtained(pokemonList, id, obtained);
             }
-            renderPokemonList(pokemonList);
+        });
 
-            pokemonListElement.addEventListener('change', (event) => {
-                if (event.target.type === 'checkbox') {
-                    const id = parseInt(event.target.getAttribute('data-id'), 10);
-                    const obtained = event.target.checked;
-                    updatePokemonObtained(pokemonList, id, obtained);
-                }
-            });
-
-            authForm.addEventListener('submit', (event) => {
-                event.preventDefault();
-                if (passwordInput.value === password) {
-                    savePokemonList(pokemonList);
-                    alert('Changes confirmed!');
-                } else {
-                    alert('Incorrect password!');
-                }
-                passwordInput.value = '';
-            });
-        })
-        .catch(error => console.error('Error loading Pokémon data:', error));
+        authForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent form submission from reloading the page
+            if (passwordInput.value === password) {
+                savePokemonList(pokemonList);
+                alert('Changes confirmed!');
+            } else {
+                alert('Incorrect password!');
+            }
+            passwordInput.value = '';
+        });
+    }).catch(error => {
+        console.error('Error loading Pokémon data:', error);
+    });
 });

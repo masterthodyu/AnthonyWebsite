@@ -1,0 +1,14 @@
+{
+    "name": "anthony-website",
+    "version": "1.0.0",
+    "description": "This contains all my projects varying from pokemon checklist to giant pcs and networking",
+    "main": "index.js",
+    "scripts": {
+      "populate": "node js/populateFirestore.js"
+    },
+    "dependencies": {
+      "firebase-admin": "^9.11.0"
+    },
+    "author": "Anthony Hoang",
+    "license": "ISC"
+  }
