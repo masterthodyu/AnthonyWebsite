@@ -247,3 +247,24 @@ pre {
     overflow-x: auto; /* Add horizontal scroll if needed */
     text-align: left; /* Optional: Align text to the left */
 }
+
+#pokemon-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#pokemon-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#pokemon-list img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+#auth-form {
+    margin-bottom: 20px;
+}
