@@ -38,7 +38,100 @@
         .pokemon-card.obtained {
             opacity: 1; /* Fully visible when obtained */
         }
+        .save-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .save-button button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .login-form {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .login-form input {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .login-form button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
     </style>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script>
+        // Load environment variables from JSON file
+        fetch('../config/env.json')
+            .then(response => response.json())
+            .then(env => {
+                window.env = env;
+                // Initialize Firebase if not already initialized
+                if (!firebase.apps.length) {
+                    const firebaseConfig = {
+                        apiKey: env.FIREBASE_API_KEY,
+                        authDomain: env.FIREBASE_AUTH_DOMAIN,
+                        databaseURL: env.FIREBASE_DATABASE_URL,
+                        projectId: env.FIREBASE_PROJECT_ID,
+                        storageBucket: env.FIREBASE_STORAGE_BUCKET,
+                        messagingSenderId: env.FIREBASE_MESSAGING_SENDER_ID,
+                        appId: env.FIREBASE_APP_ID
+                    };
+                    firebase.initializeApp(firebaseConfig);
+                }
+                // Load the main script after Firebase is initialized
+                const script = document.createElement('script');
+                script.src = '../scripts/pokemonChecklist.js';
+                script.defer = true;
+                document.head.appendChild(script);
+            })
+            .catch(error => console.error('Error loading environment variables:', error));
+        
+        // Define the toggleObtained function
+        function toggleObtained(userId, pokemonId, element) {
+            const obtained = !element.classList.contains('obtained');
+            element.classList.toggle('obtained', obtained);
+            console.log(`Toggled obtained status for ${pokemonId} to ${obtained}`); // Debugging log
+        }
+
+        // Define the save function
+        function save() {
+            const username = prompt("Enter your username:");
+            const password = prompt("Enter your password:");
+
+            if (username === window.env.USERNAME && password === window.env.PASSWORD) {
+                const userId = window.env.USERNAME;
+                const userRef = firebase.database().ref('users/' + userId);
+                const obtainedElements = document.querySelectorAll('.pokemon-card.obtained');
+                const obtainedData = {};
+
+                obtainedElements.forEach(element => {
+                    const pokemonId = element.getAttribute('onclick').match(/'([^']+)'/g)[1].replace(/'/g, '');
+                    obtainedData[pokemonId] = true;
+                });
+
+                userRef.child('obtained').set(obtainedData).then(() => {
+                    console.log('Obtained Pokémon data saved to Firebase.');
+                    alert('Data saved successfully!');
+                }).catch((error) => {
+                    console.error('Error saving obtained Pokémon data:', error); // Debugging log
+                });
+
+                // Update obtained count
+                const obtainedCount = Object.keys(obtainedData).length;
+                userRef.child('obtainedCount').set(obtainedCount).then(() => {
+                    console.log('Obtained count updated to', obtainedCount);
+                }).catch((error) => {
+                    console.error('Error updating obtained count:', error); // Debugging log
+                });
+            } else {
+                alert('Invalid username or password.');
+            }
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -50,6 +143,9 @@
     </header>
     <div class="container">
         <button onclick="window.location.href='../index.html'">Back to Main Page</button>
+        <div class="save-button">
+            <button onclick="save()">Save</button>
+        </div>
         <section id="info">
             <div id="pokemon-container" class="pokemon-container"></div>
         </section>
@@ -60,9 +156,5 @@
             <a href="https://github.com/masterthodyu" target="_blank"><i class="fab fa-github"></i></a>
         </div>
     </footer>
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-auth-compat.js"></script>
-    <script src="../scripts/pokemonChecklist.js"></script>
 </body>
 </html>

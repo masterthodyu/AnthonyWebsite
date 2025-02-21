@@ -1,4 +1,11 @@
 # Ignore Firebase service account key
 firebaseServiceAccountKey.json
 
+# Ignore environment variables file
+config/env.json
+
+# Ignore the copied dexDB file for Firebase upload
+data/dexDB_firebase.json
+data/pokemonData.json
+
 node_modules
