@@ -1,0 +1,15 @@
+{
+  "name": "anthonywebsite",
+  "version": "1.0.0",
+  "description": "Anthony Hoang's Pokémon Checklist",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server -p 8080"
+  },
+  "dependencies": {
+    "firebase": "^11.3.1",
+    "http-server": "^14.1.1"
+  },
+  "author": "Anthony Hoang",
+  "license": "ISC"
+}
