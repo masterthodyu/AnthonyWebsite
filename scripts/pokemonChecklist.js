@@ -2,6 +2,9 @@
 fetch('../config/env.json')
     .then(response => response.json())
     .then(env => {
+        // Store environment variables globally
+        window.env = env;
+
         // Initialize Firebase if not already initialized
         if (!firebase.apps.length) {
             const firebaseConfig = {
@@ -36,7 +39,6 @@ fetch('../config/env.json')
 
         // Fetch Pokémon data from Firebase
         function fetchPokemonData(userId) {
-            const pokemonContainer = document.getElementById('pokemon-container');
             console.log('Fetching Pokémon data...');
             database.ref('pokemon').once('value').then((snapshot) => {
                 const pokemonData = snapshot.val();
@@ -47,21 +49,51 @@ fetch('../config/env.json')
                 }
                 database.ref('users/' + userId + '/obtained').once('value').then((userSnapshot) => {
                     const userObtainedData = userSnapshot.val() || {};
-                    let content = '';
+                    const genContainers = {
+                        gen1: document.getElementById('gen1'),
+                        gen2: document.getElementById('gen2'),
+                        gen3: document.getElementById('gen3'),
+                        gen4: document.getElementById('gen4'),
+                        gen5: document.getElementById('gen5'),
+                        gen6: document.getElementById('gen6'),
+                        gen7: document.getElementById('gen7'),
+                        gen8: document.getElementById('gen8'),
+                        gen9: document.getElementById('gen9')
+                    };
+
                     for (let id in pokemonData) {
                         const pokemon = pokemonData[id];
                         const imgSrc = getPokemonImageSrc(pokemon); // Use function to get image path
                         console.log(`Loading image for ${pokemon.name} from ${imgSrc}`); // Debugging log
                         const obtainedClass = userObtainedData[id] ? 'obtained' : '';
-                        content += `
-                            <div class="pokemon-card ${obtainedClass}" onclick="toggleObtained('${userId}', '${id}', this)">
-                                <img src="${imgSrc}" alt="${pokemon.name}" loading="lazy" onerror="this.onerror=null;this.src='../images/pokemon/normal/default.webp';">
-                                <p>#${pokemon.id} ${pokemon.name}</p>
-                            </div>
+                        const pokemonCard = document.createElement('div');
+                        pokemonCard.className = `pokemon-card ${obtainedClass}`;
+                        pokemonCard.setAttribute('onclick', `toggleObtained('${userId}', '${id}', this)`);
+                        pokemonCard.innerHTML = `
+                            <img src="${imgSrc}" alt="${pokemon.name}" loading="lazy" onerror="this.onerror=null;this.src='../images/pokemon/normal/default.webp';">
+                            <p>#${pokemon.id} ${pokemon.name}</p>
                         `;
+
+                        if (pokemon.id <= 151) {
+                            genContainers.gen1.appendChild(pokemonCard);
+                        } else if (pokemon.id <= 251) {
+                            genContainers.gen2.appendChild(pokemonCard);
+                        } else if (pokemon.id <= 386) {
+                            genContainers.gen3.appendChild(pokemonCard);
+                        } else if (pokemon.id <= 493) {
+                            genContainers.gen4.appendChild(pokemonCard);
+                        } else if (pokemon.id <= 649) {
+                            genContainers.gen5.appendChild(pokemonCard);
+                        } else if (pokemon.id <= 721) {
+                            genContainers.gen6.appendChild(pokemonCard);
+                        } else if (pokemon.id <= 809) {
+                            genContainers.gen7.appendChild(pokemonCard);
+                        } else if (pokemon.id <= 898) {
+                            genContainers.gen8.appendChild(pokemonCard);
+                        } else if (pokemon.id <= 1010) {
+                            genContainers.gen9.appendChild(pokemonCard);
+                        }
                     }
-                    pokemonContainer.innerHTML = content;
-                    console.log('Content loaded into container:', content); // Debugging log
                 });
             }).catch((error) => {
                 console.error('Error fetching Pokémon data:', error); // Debugging log
@@ -70,19 +102,64 @@ fetch('../config/env.json')
 
         // Get Pokémon image source based on name and forms
         function getPokemonImageSrc(pokemon) {
-            let imgSrc = `../images/pokemon/normal/${pokemon.name.toLowerCase()}.webp`;
+            let baseSrc = `../images/pokemon/normal/${pokemon.name.toLowerCase()}`;
+            let imgSrc = baseSrc;
+
             if (pokemon.alolan) {
-                imgSrc = `../images/pokemon/normal/${pokemon.name.toLowerCase()}-alolan.webp`;
+                imgSrc = `${baseSrc}-alolan`;
             } else if (pokemon.galarian) {
-                imgSrc = `../images/pokemon/normal/${pokemon.name.toLowerCase()}-galarian.webp`;
+                imgSrc = `${baseSrc}-galarian`;
             } else if (pokemon.hisuian) {
-                imgSrc = `../images/pokemon/normal/${pokemon.name.toLowerCase()}-hisuian.webp`;
+                imgSrc = `${baseSrc}-hisuian`;
             } else if (pokemon.paldean) {
-                imgSrc = `../images/pokemon/normal/${pokemon.name.toLowerCase()}-paldean.webp`;
+                imgSrc = `${baseSrc}-paldean`;
             } else if (pokemon.gender) {
-                imgSrc = `../images/pokemon/normal/${pokemon.name.toLowerCase()}-male.webp`;
+                imgSrc = `${baseSrc}-f`;
             }
-            return imgSrc;
+
+            return `${imgSrc}.webp`;
+        }
+
+        // Define the toggleObtained function globally
+        window.toggleObtained = function(userId, pokemonId, element) {
+            const obtained = !element.classList.contains('obtained');
+            element.classList.toggle('obtained', obtained);
+            console.log(`Toggled obtained status for ${pokemonId} to ${obtained}`); // Debugging log
+        }
+
+        // Define the save function
+        window.save = function() {
+            const username = prompt("Enter your username:");
+            const password = prompt("Enter your password:");
+
+            if (username === window.env.USERNAME && password === window.env.PASSWORD) {
+                const userId = window.env.USERNAME;
+                const userRef = firebase.database().ref('users/' + userId);
+                const obtainedElements = document.querySelectorAll('.pokemon-card.obtained');
+                const obtainedData = {};
+
+                obtainedElements.forEach(element => {
+                    const pokemonId = element.getAttribute('onclick').match(/'([^']+)'/)[1];
+                    obtainedData[pokemonId] = true;
+                });
+
+                userRef.child('obtained').set(obtainedData).then(() => {
+                    console.log('Obtained Pokémon data saved to Firebase.');
+                    alert('Data saved successfully!');
+                }).catch((error) => {
+                    console.error('Error saving obtained Pokémon data:', error); // Debugging log
+                });
+
+                // Update obtained count
+                const obtainedCount = Object.keys(obtainedData).length;
+                userRef.child('obtainedCount').set(obtainedCount).then(() => {
+                    console.log('Obtained count updated to', obtainedCount);
+                }).catch((error) => {
+                    console.error('Error updating obtained count:', error); // Debugging log
+                });
+            } else {
+                alert('Invalid username or password.');
+            }
         }
 
         firebase.auth().onAuthStateChanged(function(user) {

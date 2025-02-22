@@ -19,6 +19,7 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
+            background-color: transparent; /* Make containers transparent */
         }
         .pokemon-card {
             width: 150px;
@@ -30,6 +31,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             opacity: 0.5; /* Start with faded images */
             transition: opacity 0.3s;
+            cursor: pointer; /* Ensure cards are clickable */
         }
         .pokemon-card img {
             width: 100%;
@@ -59,79 +61,31 @@
             padding: 10px 20px;
             font-size: 16px;
         }
+        .collapsible {
+            background-color: #f9f9f9;
+            color: #444;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 18px;
+        }
+        .active, .collapsible:hover {
+            background-color: #ccc;
+        }
+        .content {
+            padding: 0 18px;
+            display: none;
+            overflow: hidden;
+            background-color: transparent; /* Make content background transparent */
+        }
     </style>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
-    <script>
-        // Load environment variables from JSON file
-        fetch('../config/env.json')
-            .then(response => response.json())
-            .then(env => {
-                window.env = env;
-                // Initialize Firebase if not already initialized
-                if (!firebase.apps.length) {
-                    const firebaseConfig = {
-                        apiKey: env.FIREBASE_API_KEY,
-                        authDomain: env.FIREBASE_AUTH_DOMAIN,
-                        databaseURL: env.FIREBASE_DATABASE_URL,
-                        projectId: env.FIREBASE_PROJECT_ID,
-                        storageBucket: env.FIREBASE_STORAGE_BUCKET,
-                        messagingSenderId: env.FIREBASE_MESSAGING_SENDER_ID,
-                        appId: env.FIREBASE_APP_ID
-                    };
-                    firebase.initializeApp(firebaseConfig);
-                }
-                // Load the main script after Firebase is initialized
-                const script = document.createElement('script');
-                script.src = '../scripts/pokemonChecklist.js';
-                script.defer = true;
-                document.head.appendChild(script);
-            })
-            .catch(error => console.error('Error loading environment variables:', error));
-        
-        // Define the toggleObtained function
-        function toggleObtained(userId, pokemonId, element) {
-            const obtained = !element.classList.contains('obtained');
-            element.classList.toggle('obtained', obtained);
-            console.log(`Toggled obtained status for ${pokemonId} to ${obtained}`); // Debugging log
-        }
-
-        // Define the save function
-        function save() {
-            const username = prompt("Enter your username:");
-            const password = prompt("Enter your password:");
-
-            if (username === window.env.USERNAME && password === window.env.PASSWORD) {
-                const userId = window.env.USERNAME;
-                const userRef = firebase.database().ref('users/' + userId);
-                const obtainedElements = document.querySelectorAll('.pokemon-card.obtained');
-                const obtainedData = {};
-
-                obtainedElements.forEach(element => {
-                    const pokemonId = element.getAttribute('onclick').match(/'([^']+)'/g)[1].replace(/'/g, '');
-                    obtainedData[pokemonId] = true;
-                });
-
-                userRef.child('obtained').set(obtainedData).then(() => {
-                    console.log('Obtained Pokémon data saved to Firebase.');
-                    alert('Data saved successfully!');
-                }).catch((error) => {
-                    console.error('Error saving obtained Pokémon data:', error); // Debugging log
-                });
-
-                // Update obtained count
-                const obtainedCount = Object.keys(obtainedData).length;
-                userRef.child('obtainedCount').set(obtainedCount).then(() => {
-                    console.log('Obtained count updated to', obtainedCount);
-                }).catch((error) => {
-                    console.error('Error updating obtained count:', error); // Debugging log
-                });
-            } else {
-                alert('Invalid username or password.');
-            }
-        }
-    </script>
+    <script src="../scripts/pokemonChecklist.js" defer></script>
 </head>
 <body>
     <header>
@@ -149,6 +103,43 @@
         <section id="info">
             <div id="pokemon-container" class="pokemon-container"></div>
         </section>
+        <div id="pokemon-checklist" class="pokemon-container"></div>
+        <button class="collapsible">Generation 1</button>
+        <div class="content">
+            <div id="gen1" class="pokemon-container"></div>
+        </div>
+        <button class="collapsible">Generation 2</button>
+        <div class="content">
+            <div id="gen2" class="pokemon-container"></div>
+        </div>
+        <button class="collapsible">Generation 3</button>
+        <div class="content">
+            <div id="gen3" class="pokemon-container"></div>
+        </div>
+        <button class="collapsible">Generation 4</button>
+        <div class="content">
+            <div id="gen4" class="pokemon-container"></div>
+        </div>
+        <button class="collapsible">Generation 5</button>
+        <div class="content">
+            <div id="gen5" class="pokemon-container"></div>
+        </div>
+        <button class="collapsible">Generation 6</button>
+        <div class="content">
+            <div id="gen6" class="pokemon-container"></div>
+        </div>
+        <button class="collapsible">Generation 7</button>
+        <div class="content">
+            <div id="gen7" class="pokemon-container"></div>
+        </div>
+        <button class="collapsible">Generation 8</button>
+        <div class="content">
+            <div id="gen8" class="pokemon-container"></div>
+        </div>
+        <button class="collapsible">Generation 9</button>
+        <div class="content">
+            <div id="gen9" class="pokemon-container"></div>
+        </div>
     </div>
     <footer>
         <div class="footer-social-links">
@@ -156,5 +147,20 @@
             <a href="https://github.com/masterthodyu" target="_blank"><i class="fab fa-github"></i></a>
         </div>
     </footer>
+    <script>
+        // Collapsible sections
+        const collapsibles = document.getElementsByClassName("collapsible");
+        for (let i = 0; i < collapsibles.length; i++) {
+            collapsibles[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                const content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
+        }
+    </script>
 </body>
 </html>
