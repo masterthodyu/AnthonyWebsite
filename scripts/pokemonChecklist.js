@@ -50,15 +50,15 @@ fetch('../config/env.json')
                 database.ref('users/' + userId + '/obtained').once('value').then((userSnapshot) => {
                     const userObtainedData = userSnapshot.val() || {};
                     const genContainers = {
-                        gen1: document.getElementById('gen1'),
-                        gen2: document.getElementById('gen2'),
-                        gen3: document.getElementById('gen3'),
-                        gen4: document.getElementById('gen4'),
-                        gen5: document.getElementById('gen5'),
-                        gen6: document.getElementById('gen6'),
-                        gen7: document.getElementById('gen7'),
-                        gen8: document.getElementById('gen8'),
-                        gen9: document.getElementById('gen9')
+                        standard: document.getElementById('standard'),
+                        alolan: document.getElementById('alolan'),
+                        galarian: document.getElementById('galarian'),
+                        hisuian: document.getElementById('hisuian'),
+                        paldean: document.getElementById('paldean'),
+                        gender: document.getElementById('gender'),
+                        mega: document.getElementById('mega'),
+                        gigantamax: document.getElementById('gigantamax'),
+                        alts: document.getElementById('alts')
                     };
 
                     for (let id in pokemonData) {
@@ -66,32 +66,26 @@ fetch('../config/env.json')
                         const imgSrc = getPokemonImageSrc(pokemon); // Use function to get image path
                         console.log(`Loading image for ${pokemon.name} from ${imgSrc}`); // Debugging log
                         const obtainedClass = userObtainedData[id] ? 'obtained' : '';
-                        const pokemonCard = document.createElement('div');
-                        pokemonCard.className = `pokemon-card ${obtainedClass}`;
-                        pokemonCard.setAttribute('onclick', `toggleObtained('${userId}', '${id}', this)`);
-                        pokemonCard.innerHTML = `
-                            <img src="${imgSrc}" alt="${pokemon.name}" loading="lazy" onerror="this.onerror=null;this.src='../images/pokemon/normal/default.webp';">
-                            <p>#${pokemon.id} ${pokemon.name}</p>
-                        `;
+                        const pokemonCard = createPokemonCard(pokemon, userId, id, obtainedClass, imgSrc);
 
-                        if (pokemon.id <= 151) {
-                            genContainers.gen1.appendChild(pokemonCard);
-                        } else if (pokemon.id <= 251) {
-                            genContainers.gen2.appendChild(pokemonCard);
-                        } else if (pokemon.id <= 386) {
-                            genContainers.gen3.appendChild(pokemonCard);
-                        } else if (pokemon.id <= 493) {
-                            genContainers.gen4.appendChild(pokemonCard);
-                        } else if (pokemon.id <= 649) {
-                            genContainers.gen5.appendChild(pokemonCard);
-                        } else if (pokemon.id <= 721) {
-                            genContainers.gen6.appendChild(pokemonCard);
-                        } else if (pokemon.id <= 809) {
-                            genContainers.gen7.appendChild(pokemonCard);
-                        } else if (pokemon.id <= 898) {
-                            genContainers.gen8.appendChild(pokemonCard);
-                        } else if (pokemon.id <= 1010) {
-                            genContainers.gen9.appendChild(pokemonCard);
+                        if (pokemon.alolan) {
+                            genContainers.alolan.appendChild(pokemonCard);
+                        } else if (pokemon.galarian) {
+                            genContainers.galarian.appendChild(pokemonCard);
+                        } else if (pokemon.hisuian) {
+                            genContainers.hisuian.appendChild(pokemonCard);
+                        } else if (pokemon.paldean) {
+                            genContainers.paldean.appendChild(pokemonCard);
+                        } else if (pokemon.gender) {
+                            genContainers.gender.appendChild(pokemonCard);
+                        } else if (pokemon.mega) {
+                            genContainers.mega.appendChild(pokemonCard);
+                        } else if (pokemon.gigantamax) {
+                            genContainers.gigantamax.appendChild(pokemonCard);
+                        } else if (pokemon.alts) {
+                            genContainers.alts.appendChild(pokemonCard);
+                        } else {
+                            genContainers.standard.appendChild(pokemonCard);
                         }
                     }
                 });
@@ -118,6 +112,17 @@ fetch('../config/env.json')
             }
 
             return `${imgSrc}.webp`;
+        }
+
+        function createPokemonCard(pokemon, userId, id, obtainedClass, imgSrc) {
+            const card = document.createElement('div');
+            card.className = `pokemon-card ${obtainedClass}`;
+            card.setAttribute('onclick', `toggleObtained('${userId}', '${id}', this)`);
+            card.innerHTML = `
+                <img src="${imgSrc}" alt="${pokemon.name}" loading="lazy" onerror="this.onerror=null;this.src='../images/pokemon/normal/default.webp';">
+                <div class="pokemon-id">#${pokemon.id}</div>
+            `;
+            return card;
         }
 
         // Define the toggleObtained function globally

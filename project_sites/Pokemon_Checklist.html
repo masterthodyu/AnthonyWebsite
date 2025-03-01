@@ -8,148 +8,120 @@
     <meta name="author" content="Anthony Hoang">
     <title>Pokémon Checklist</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../styles.css">
-    <style>
-        ul {
-            list-style-type: none; /* Remove bullet points */
-            padding-left: 0; /* Remove default padding */
-        }
-        .pokemon-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            background-color: transparent; /* Make containers transparent */
-        }
-        .pokemon-card {
-            width: 150px;
-            text-align: center;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 10px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            opacity: 0.5; /* Start with faded images */
-            transition: opacity 0.3s;
-            cursor: pointer; /* Ensure cards are clickable */
-        }
-        .pokemon-card img {
-            width: 100%;
-            height: auto;
-        }
-        .pokemon-card.obtained {
-            opacity: 1; /* Fully visible when obtained */
-        }
-        .save-button {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .save-button button {
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-        .login-form {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .login-form input {
-            margin: 5px;
-            padding: 10px;
-            font-size: 16px;
-        }
-        .login-form button {
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-        .collapsible {
-            background-color: #f9f9f9;
-            color: #444;
-            cursor: pointer;
-            padding: 10px;
-            width: 100%;
-            border: none;
-            text-align: left;
-            outline: none;
-            font-size: 18px;
-        }
-        .active, .collapsible:hover {
-            background-color: #ccc;
-        }
-        .content {
-            padding: 0 18px;
-            display: none;
-            overflow: hidden;
-            background-color: transparent; /* Make content background transparent */
-        }
-    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
     <script src="../scripts/pokemonChecklist.js" defer></script>
+    <link rel="stylesheet" href="../styles.css">
 </head>
-<body>
+<body class="d-flex flex-column h-100">
     <header>
-        <h1>Pokémon Checklist</h1>
-        <ul class="social-links">
-            <li><a href="https://www.linkedin.com/in/anthony-hoang-1a6b88158" target="_blank"><i class="fab fa-linkedin"></i></a></li>
-            <li><a href="https://github.com/masterthodyu" target="_blank"><i class="fab fa-github"></i></a></li>
-        </ul>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="../index.html">Pokémon Checklist</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://www.linkedin.com/in/anthony-hoang-1a6b88158" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://github.com/masterthodyu" target="_blank"><i class="fab fa-github"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
-    <div class="container">
-        <button onclick="window.location.href='../index.html'">Back to Main Page</button>
-        <div class="save-button">
-            <button onclick="save()">Save</button>
+    <main class="flex-shrink-0" role="main">
+        <div class="container mt-5">
+            <div class="save-button">
+                <button onclick="save()" class="btn btn-primary">Save</button>
+            </div>
+            <div class="collapse-buttons text-center my-3">
+                <button onclick="collapseAll()" class="btn btn-secondary">Collapse All</button>
+                <button onclick="uncollapseAll()" class="btn btn-secondary">Uncollapse All</button>
+            </div>
+            <section id="info">
+                <div id="pokemon-container" class="pokemon-container"></div>
+            </section>
+            <div id="pokemon-checklist" class="pokemon-container"></div>
+            <div class="collapsible-container">
+                <div class="collapsible-header">Standard Pokémon</div>
+                <div class="collapsible-content">
+                    <div id="standard" class="pokemon-container"></div>
+                </div>
+            </div>
+            <div class="collapsible-container">
+                <div class="collapsible-header">Alolan Forms</div>
+                <div class="collapsible-content">
+                    <div id="alolan" class="pokemon-container"></div>
+                </div>
+            </div>
+            <div class="collapsible-container">
+                <div class="collapsible-header">Galarian Forms</div>
+                <div class="collapsible-content">
+                    <div id="galarian" class="pokemon-container"></div>
+                </div>
+            </div>
+            <div class="collapsible-container">
+                <div class="collapsible-header">Hisuian Forms</div>
+                <div class="collapsible-content">
+                    <div id="hisuian" class="pokemon-container"></div>
+                </div>
+            </div>
+            <div class="collapsible-container">
+                <div class="collapsible-header">Paldean Forms</div>
+                <div class="collapsible-content">
+                    <div id="paldean" class="pokemon-container"></div>
+                </div>
+            </div>
+            <div class="collapsible-container">
+                <div class="collapsible-header">Gender Differences</div>
+                <div class="collapsible-content">
+                    <div id="gender" class="pokemon-container"></div>
+                </div>
+            </div>
+            <div class="collapsible-container">
+                <div class="collapsible-header">Mega Evolutions</div>
+                <div class="collapsible-content">
+                    <div id="mega" class="pokemon-container"></div>
+                </div>
+            </div>
+            <div class="collapsible-container">
+                <div class="collapsible-header">Gigantamax Forms</div>
+                <div class="collapsible-content">
+                    <div id="gigantamax" class="pokemon-container"></div>
+                </div>
+            </div>
+            <div class="collapsible-container">
+                <div class="collapsible-header">Alternate Forms</div>
+                <div class="collapsible-content">
+                    <div id="alts" class="pokemon-container"></div>
+                </div>
+            </div>
         </div>
-        <section id="info">
-            <div id="pokemon-container" class="pokemon-container"></div>
-        </section>
-        <div id="pokemon-checklist" class="pokemon-container"></div>
-        <button class="collapsible">Generation 1</button>
-        <div class="content">
-            <div id="gen1" class="pokemon-container"></div>
-        </div>
-        <button class="collapsible">Generation 2</button>
-        <div class="content">
-            <div id="gen2" class="pokemon-container"></div>
-        </div>
-        <button class="collapsible">Generation 3</button>
-        <div class="content">
-            <div id="gen3" class="pokemon-container"></div>
-        </div>
-        <button class="collapsible">Generation 4</button>
-        <div class="content">
-            <div id="gen4" class="pokemon-container"></div>
-        </div>
-        <button class="collapsible">Generation 5</button>
-        <div class="content">
-            <div id="gen5" class="pokemon-container"></div>
-        </div>
-        <button class="collapsible">Generation 6</button>
-        <div class="content">
-            <div id="gen6" class="pokemon-container"></div>
-        </div>
-        <button class="collapsible">Generation 7</button>
-        <div class="content">
-            <div id="gen7" class="pokemon-container"></div>
-        </div>
-        <button class="collapsible">Generation 8</button>
-        <div class="content">
-            <div id="gen8" class="pokemon-container"></div>
-        </div>
-        <button class="collapsible">Generation 9</button>
-        <div class="content">
-            <div id="gen9" class="pokemon-container"></div>
-        </div>
-    </div>
-    <footer>
-        <div class="footer-social-links">
-            <a href="https://www.linkedin.com/in/anthony-hoang-1a6b88158" target="_blank"><i class="fab fa-linkedin"></i></a>
-            <a href="https://github.com/masterthodyu" target="_blank"><i class="fab fa-github"></i></a>
+    </main>
+    <footer class="text-muted mt-auto py-3 bg-dark text-white">
+        <div class="container text-center">
+            <p>Site design by Anthony Hoang. Pokémon images and names are the property of The Pokémon Company.</p>
+            <p>
+                <a href="https://www.linkedin.com/in/anthony-hoang-1a6b88158" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/masterthodyu" target="_blank"><i class="fab fa-github"></i></a>
+            </p>
         </div>
     </footer>
     <script>
         // Collapsible sections
-        const collapsibles = document.getElementsByClassName("collapsible");
+        const collapsibles = document.getElementsByClassName("collapsible-header");
         for (let i = 0; i < collapsibles.length; i++) {
             collapsibles[i].addEventListener("click", function() {
                 this.classList.toggle("active");
@@ -160,6 +132,20 @@
                     content.style.display = "block";
                 }
             });
+        }
+
+        function collapseAll() {
+            const contents = document.getElementsByClassName("collapsible-content");
+            for (let i = 0; i < contents.length; i++) {
+                contents[i].style.display = "none";
+            }
+        }
+
+        function uncollapseAll() {
+            const contents = document.getElementsByClassName("collapsible-content");
+            for (let i = 0; i < contents.length; i++) {
+                contents[i].style.display = "block";
+            }
         }
     </script>
 </body>

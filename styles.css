@@ -63,7 +63,7 @@ social-links a:hover {
 }
 
 .container {
-    max-width: 1200px; /* Set a maximum width for the container */
+    max-width: calc(100vw - 200px); /* Set max width to screen size minus 200px */
     margin: 0 auto; /* Center the container */
     padding: 0 20px; /* Add some padding for better spacing */
 }
@@ -246,4 +246,185 @@ pre {
     border-radius: 5px; /* Optional: Add border radius */
     overflow-x: auto; /* Add horizontal scroll if needed */
     text-align: left; /* Optional: Align text to the left */
+}
+
+ul {
+    list-style-type: none; /* Remove bullet points */
+    padding-left: 0; /* Remove default padding */
+}
+.pokemon-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px; /* Reduced gap */
+    background-color: transparent; /* Make containers transparent */
+}
+.pokemon-card {
+    width: calc(100% / 7 - 10px); /* Fixed width for 7 per row */
+    max-width: 100px; /* Adjusted maximum width */
+    text-align: center;
+    border: none; /* Remove border */
+    border-radius: 10px;
+    padding: 5px; /* Reduced padding */
+    background-color: transparent; /* Remove background color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 0.5; /* Start with faded images */
+    transition: opacity 0.3s;
+    cursor: pointer; /* Ensure cards are clickable */
+}
+.pokemon-card img {
+    width: 100%;
+    height: auto;
+}
+.pokemon-card.obtained {
+    opacity: 1; /* Fully visible when obtained */
+}
+.pokemon-card .pokemon-id {
+    font-size: clamp(10px, 1.5vw, 12px); /* Adjust font size for Pokemon ID */
+}
+.pokemon-card .pokemon-name {
+    font-size: clamp(1px, 1vw, 8px) !important; /* Ensure font size takes precedence */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    display: inline-block;
+    max-width: 70%;
+}
+.save-button {
+    text-align: center;
+    margin-top: 20px;
+    width: 100%;
+}
+.save-button button {
+    padding: 10px 20px;
+    font-size: 16px;
+}
+.login-form {
+    text-align: center;
+    margin-top: 20px;
+}
+.login-form input {
+    margin: 5px;
+    padding: 10px;
+    font-size: 16px;
+}
+.login-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+}
+.collapsible {
+    background-color: #f9f9f9;
+    color: #444;
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 18px;
+}
+.active, .collapsible:hover {
+    background-color: #ccc;
+}
+.content {
+    padding: 0 18px;
+    display: block; /* Start with all sections opened */
+    overflow: hidden;
+    background-color: transparent; /* Make content background transparent */
+}
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.collapsible-container {
+    flex: 1 1 calc(50% - 20px); /* Four containers per row */
+    margin: 10px;
+    border: none; /* Remove border */
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: transparent; /* Transparent background */
+}
+.collapsible-container .collapsible-content {
+    background-color: transparent; /* Transparent background when opened */
+    padding: 0; /* Remove padding */
+}
+.collapsible-header {
+    background-color: #f1f1f1;
+    padding: 10px;
+    cursor: pointer;
+    color: #000; /* Set text color to black */
+    border: 1px solid #ccc; /* Optional: Add border for better visibility */
+    border-radius: 5px; /* Optional: Add border radius */
+}
+.collapsible-content {
+    display: block; /* Start with all sections opened */
+    padding: 10px;
+}
+
+/* Responsive typography */
+body {
+    font-size: clamp(12px, 2vw, 18px); /* Base font size with min and max limits */
+}
+
+h1 {
+    font-size: clamp(24px, 4vw, 36px); /* Heading 1 font size with min and max limits */
+}
+
+h2 {
+    font-size: clamp(20px, 3.5vw, 32px); /* Heading 2 font size with min and max limits */
+}
+
+h3 {
+    font-size: clamp(18px, 3vw, 28px); /* Heading 3 font size with min and max limits */
+}
+
+p {
+    font-size: clamp(14px, 2vw, 20px); /* Paragraph font size with min and max limits */
+}
+
+/* Media queries for smaller screens */
+@media (max-width: 768px) {
+    body {
+        font-size: 3vw; /* Adjust base font size for smaller screens */
+    }
+
+    h1 {
+        font-size: 6vw; /* Adjust heading 1 font size for smaller screens */
+    }
+
+    h2 {
+        font-size: 5.5vw; /* Adjust heading 2 font size for smaller screens */
+    }
+
+    h3 {
+        font-size: 5vw; /* Adjust heading 3 font size for smaller screens */
+    }
+
+    p {
+        font-size: 3vw; /* Adjust paragraph font size for smaller screens */
+    }
+}
+
+/* Media queries for very small screens */
+@media (max-width: 480px) {
+    body {
+        font-size: 4vw; /* Adjust base font size for very small screens */
+    }
+
+    h1 {
+        font-size: 8vw; /* Adjust heading 1 font size for very small screens */
+    }
+
+    h2 {
+        font-size: 7.5vw; /* Adjust heading 2 font size for very small screens */
+    }
+
+    h3 {
+        font-size: 7vw; /* Adjust heading 3 font size for very small screens */
+    }
+
+    p {
+        font-size: 4vw; /* Adjust paragraph font size for very small screens */
+    }
 }
